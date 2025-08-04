@@ -1,25 +1,27 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 
 export function useSubredditPosts(subreddit) {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [after, setAfter] = useState(null);
-  const [before, setBefore] = useState(null);
+
+  const cacheRef = useRef(new Map());
 
   const fetchPosts = useCallback(
-    async (direction = "initial") => {
+    async (forceRefresh = false) => {
       setLoading(true);
       setError("");
 
-      const params = new URLSearchParams();
-      if (direction === "next" && after) params.set("after", after);
-      if (direction === "prev" && before) params.set("before", before);
-      params.set("limit", 10);
+      if (!forceRefresh && cacheRef.current.has(subreddit)) {
+        setPosts(cacheRef.current.get(subreddit));
+        setLoading(false);
+        return;
+      }
 
       try {
-        const url = `https://www.reddit.com/r/${subreddit}.json?${params.toString()}`;
-        const response = await fetch(url);
+        const response = await fetch(
+          `https://api.reddit.com/r/${subreddit}.json`
+        );
         if (!response.ok) throw new Error(`Subreddit "${subreddit}" not found`);
 
         const data = await response.json();
@@ -33,9 +35,8 @@ export function useSubredditPosts(subreddit) {
           url: `https://reddit.com${p.data.permalink}`,
         }));
 
+        cacheRef.current.set(subreddit, postItems);
         setPosts(postItems);
-        setAfter(data.data.after);
-        setBefore(data.data.before);
       } catch (err) {
         setError(err.message || "Failed to fetch posts.");
         setPosts([]);
@@ -43,21 +44,17 @@ export function useSubredditPosts(subreddit) {
         setLoading(false);
       }
     },
-    [subreddit, after, before]
+    [subreddit]
   );
 
   useEffect(() => {
-    fetchPosts("initial");
+    fetchPosts();
   }, [fetchPosts]);
 
   return {
     posts,
     loading,
     error,
-    fetchPosts,
-    nextPage: () => fetchPosts("next"),
-    prevPage: () => fetchPosts("prev"),
-    hasNext: !!after,
-    hasPrev: !!before,
+    refresh: () => fetchPosts(true),
   };
 }

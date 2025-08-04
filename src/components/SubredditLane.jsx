@@ -1,16 +1,7 @@
 import { useSubredditPosts } from "../hooks/useSubredditPosts";
 
 export default function SubredditLane({ subreddit, onDelete }) {
-  const {
-    posts,
-    loading,
-    error,
-    fetchPosts,
-    nextPage,
-    prevPage,
-    hasNext,
-    hasPrev,
-  } = useSubredditPosts(subreddit);
+  const { posts, loading, error, refresh } = useSubredditPosts(subreddit);
 
   return (
     <div className="bg-white rounded shadow p-4 relative">
@@ -20,7 +11,7 @@ export default function SubredditLane({ subreddit, onDelete }) {
           <button className="text-gray-500 hover:text-black">⋮</button>
           <div className="absolute right-0 mt-2 bg-white border rounded shadow-lg hidden group-hover:block">
             <button
-              onClick={fetchPosts}
+              onClick={refresh}
               className="block w-full px-4 py-2 text-sm hover:bg-gray-100"
             >
               Refresh
@@ -58,31 +49,6 @@ export default function SubredditLane({ subreddit, onDelete }) {
           </li>
         ))}
       </ul>
-
-      <div className="flex justify-between mt-4">
-        <button
-          onClick={prevPage}
-          disabled={!hasPrev}
-          className={`px-3 py-1 rounded ${
-            hasPrev
-              ? "bg-gray-200 hover:bg-gray-300"
-              : "bg-gray-100 text-gray-400 cursor-not-allowed"
-          }`}
-        >
-          ← Prev
-        </button>
-        <button
-          onClick={nextPage}
-          disabled={!hasNext}
-          className={`px-3 py-1 rounded ${
-            hasNext
-              ? "bg-gray-200 hover:bg-gray-300"
-              : "bg-gray-100 text-gray-400 cursor-not-allowed"
-          }`}
-        >
-          Next →
-        </button>
-      </div>
     </div>
   );
 }
