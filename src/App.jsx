@@ -31,7 +31,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
+    <div className="min-h-screen bg-gray-100 dark:bg-black text-black dark:text-white p-4">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Reddit Lanes</h1>
         <button

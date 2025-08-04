@@ -42,19 +42,19 @@ export default function AddSubredditModal({ onAdd, onClose, existingSubs }) {
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-10"
+      className="fixed inset-0 bg-black/40 dark:bg-black/70 flex justify-center items-center z-10"
       role="dialog"
       aria-modal="true"
       aria-label="Add Subreddit Modal"
     >
-      <div className="bg-white p-6 rounded shadow-md w-80">
+      <div className="bg-white dark:bg-gray-800 dark:text-white p-6 rounded shadow-md w-80">
         <h2 className="text-lg font-semibold mb-2">Enter subreddit name</h2>
         <input
           ref={inputRef}
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          className="w-full border border-gray-300 rounded px-3 py-2 mb-3"
+          className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded px-3 py-2 mb-3"
           placeholder="e.g. javascript"
           aria-label="Subreddit name"
         />
@@ -62,7 +62,7 @@ export default function AddSubredditModal({ onAdd, onClose, existingSubs }) {
         <div className="flex justify-end space-x-2">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-gray-500 hover:text-black"
+            className="px-4 py-2 text-gray-500 dark:text-gray-300 hover:text-black dark:hover:text-white"
           >
             Cancel <span className="sr-only">(Escape)</span>
           </button>

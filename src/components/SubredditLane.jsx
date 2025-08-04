@@ -4,7 +4,7 @@ export default function SubredditLane({ subreddit, onDelete }) {
   const { posts, loading, error, refresh } = useSubredditPosts(subreddit);
 
   return (
-    <div className="bg-white rounded shadow p-4 relative">
+    <div className="bg-white dark:bg-gray-900 dark:text-white rounded shadow p-4 relative">
       <div className="flex justify-between items-center mb-2">
         <h2 className="font-semibold text-lg">/r/{subreddit}</h2>
         <div className="relative group">
@@ -27,7 +27,9 @@ export default function SubredditLane({ subreddit, onDelete }) {
       </div>
 
       {loading && <p className="text-sm text-gray-500">Loading...</p>}
-      {error && <p className="text-sm text-red-500">{error}</p>}
+      {error && (
+        <p className="text-red-500 dark:text-red-400 text-sm">{error}</p>
+      )}
 
       <ul className="space-y-2 mt-2">
         {posts.map((post) => (
