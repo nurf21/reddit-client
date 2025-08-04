@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export default function AddSubredditModal({ onAdd, onClose, existingSubs }) {
   const [input, setInput] = useState("");
@@ -9,17 +9,7 @@ export default function AddSubredditModal({ onAdd, onClose, existingSubs }) {
     inputRef.current?.focus();
   }, []);
 
-  useEffect(() => {
-    const handleKey = (e) => {
-      if (e.key === "Escape") onClose();
-      if (e.key === "Enter") handleAdd();
-    };
-
-    document.addEventListener("keydown", handleKey);
-    return () => document.removeEventListener("keydown", handleKey);
-  }, [input]);
-
-  const handleAdd = async () => {
+  const handleAdd = useCallback(async () => {
     const sub = input.trim().toLowerCase();
     if (!sub) return;
 
@@ -34,11 +24,20 @@ export default function AddSubredditModal({ onAdd, onClose, existingSubs }) {
       onAdd(sub);
       setInput("");
       setError("");
-      onClose();
     } catch {
       setError("Subreddit not found.");
     }
-  };
+  }, [input, existingSubs, onAdd]);
+
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (e.key === "Escape") onClose();
+      if (e.key === "Enter") handleAdd();
+    };
+
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [handleAdd, onClose]);
 
   return (
     <div
