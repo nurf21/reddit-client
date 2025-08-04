@@ -1,7 +1,16 @@
 import { useSubredditPosts } from "../hooks/useSubredditPosts";
 
 export default function SubredditLane({ subreddit, onDelete }) {
-  const { posts, loading, error, fetchPosts } = useSubredditPosts(subreddit);
+  const {
+    posts,
+    loading,
+    error,
+    fetchPosts,
+    nextPage,
+    prevPage,
+    hasNext,
+    hasPrev,
+  } = useSubredditPosts(subreddit);
 
   return (
     <div className="bg-white rounded shadow p-4 relative">
@@ -36,16 +45,44 @@ export default function SubredditLane({ subreddit, onDelete }) {
               href={post.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:underline flex items-start gap-2"
+              className="hover:underline flex flex-col gap-1"
             >
-              <span className="font-bold text-sm text-purple-600">
-                ↑ {post.score}
-              </span>
+              <div className="flex items-center gap-2 text-sm">
+                <span className="font-bold text-purple-600">
+                  ↑ {post.score}
+                </span>
+                <span className="text-gray-500">💬 {post.num_comments}</span>
+              </div>
               <span className="text-sm">{post.title}</span>
             </a>
           </li>
         ))}
       </ul>
+
+      <div className="flex justify-between mt-4">
+        <button
+          onClick={prevPage}
+          disabled={!hasPrev}
+          className={`px-3 py-1 rounded ${
+            hasPrev
+              ? "bg-gray-200 hover:bg-gray-300"
+              : "bg-gray-100 text-gray-400 cursor-not-allowed"
+          }`}
+        >
+          ← Prev
+        </button>
+        <button
+          onClick={nextPage}
+          disabled={!hasNext}
+          className={`px-3 py-1 rounded ${
+            hasNext
+              ? "bg-gray-200 hover:bg-gray-300"
+              : "bg-gray-100 text-gray-400 cursor-not-allowed"
+          }`}
+        >
+          Next →
+        </button>
+      </div>
     </div>
   );
 }
