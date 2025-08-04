@@ -23,4 +23,12 @@ export const mockPosts = [
     num_comments: 21,
     permalink: "/r/webdev/comments/mock3",
   },
+  {
+    id: "mock4",
+    title: "JavaScript ES2025 features you should know",
+    author: "demo_user4",
+    score: 175,
+    num_comments: 65,
+    permalink: "/r/javascript/comments/mock4",
+  },
 ];
