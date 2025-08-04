@@ -1,28 +1,62 @@
+import { useState, useRef, useEffect } from "react";
 import { useSubredditPosts } from "../hooks/useSubredditPosts";
 
 export default function SubredditLane({ subreddit, onDelete }) {
   const { posts, loading, error, refresh } = useSubredditPosts(subreddit);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <div className="bg-white dark:bg-gray-900 dark:text-white rounded shadow p-4 relative">
       <div className="flex justify-between items-center mb-2">
         <h2 className="font-semibold text-lg">/r/{subreddit}</h2>
-        <div className="relative group">
-          <button className="text-gray-500 hover:text-black">⋮</button>
-          <div className="absolute right-0 mt-2 bg-white border rounded shadow-lg hidden group-hover:block">
-            <button
-              onClick={refresh}
-              className="block w-full px-4 py-2 text-sm hover:bg-gray-100"
+        <div className="relative" ref={menuRef}>
+          <button
+            onClick={() => setMenuOpen((prev) => !prev)}
+            className="text-gray-500 dark:text-gray-300 cursor-pointer hover:text-black dark:hover:text-white 
+             text-2xl leading-none px-2 py-1 rounded-full transition-colors 
+             hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            aria-label="Toggle menu"
+          >
+            ⋮
+          </button>
+
+          {menuOpen && (
+            <div
+              className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-lg border border-gray-200 
+               bg-white dark:bg-gray-800 shadow-md animate-dropdownIn"
             >
-              Refresh
-            </button>
-            <button
-              onClick={() => onDelete(subreddit)}
-              className="block w-full px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
-            >
-              Delete
-            </button>
-          </div>
+              <button
+                onClick={() => {
+                  refresh();
+                  setMenuOpen(false);
+                }}
+                className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 cursor-pointer hover:bg-gray-100 hover:rounded-lg dark:hover:bg-gray-700"
+              >
+                Refresh
+              </button>
+              <button
+                onClick={() => {
+                  onDelete(subreddit);
+                  setMenuOpen(false);
+                }}
+                className="block w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 cursor-pointer hover:bg-red-50 hover:rounded-lg dark:hover:bg-red-900"
+              >
+                Delete
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
