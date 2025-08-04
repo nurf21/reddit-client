@@ -18,7 +18,7 @@ export function useSubredditPosts(subreddit) {
       params.set("limit", 10);
 
       try {
-        const url = `https://www.reddit.com/r/${subreddit}.json`;
+        const url = `https://www.reddit.com/r/${subreddit}.json?${params.toString()}`;
         const response = await fetch(url);
         if (!response.ok) throw new Error(`Subreddit "${subreddit}" not found`);
 
