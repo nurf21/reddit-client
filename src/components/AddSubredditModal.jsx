@@ -47,7 +47,7 @@ export default function AddSubredditModal({ onAdd, onClose, existingSubs }) {
       aria-modal="true"
       aria-label="Add Subreddit Modal"
     >
-      <div className="bg-white dark:bg-gray-800 dark:text-white p-6 rounded shadow-md w-80">
+      <div className="bg-white dark:bg-gray-800 dark:text-white p-6 rounded shadow-md w-80 animate-fadeIn">
         <h2 className="text-lg font-semibold mb-2">Enter subreddit name</h2>
         <input
           ref={inputRef}
@@ -62,13 +62,13 @@ export default function AddSubredditModal({ onAdd, onClose, existingSubs }) {
         <div className="flex justify-end space-x-2">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-gray-500 dark:text-gray-300 hover:text-black dark:hover:text-white"
+            className="px-4 py-2 text-gray-500 dark:text-gray-300 cursor-pointer hover:text-black dark:hover:text-white"
           >
             Cancel <span className="sr-only">(Escape)</span>
           </button>
           <button
             onClick={handleAdd}
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-sm cursor-pointer hover:bg-blue-600"
           >
             Add <span className="sr-only">(Enter)</span>
           </button>
