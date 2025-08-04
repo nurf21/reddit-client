@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
+import AddSubredditModal from "./components/AddSubredditModal";
 import SubredditLane from "./components/SubredditLane";
 
 function App() {
   const [subreddits, setSubreddits] = useState([]);
-  const [newSubreddit, setNewSubreddit] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [error, setError] = useState("");
 
   // Load saved subreddits from localStorage
   useEffect(() => {
@@ -27,31 +26,6 @@ function App() {
     localStorage.setItem("subreddits", JSON.stringify(subreddits));
   }, [subreddits]);
 
-  const handleAddSubreddit = () => {
-    const sub = newSubreddit.trim().toLowerCase();
-    if (!sub) return;
-    if (subreddits.includes(sub)) {
-      setError("Subreddit already added.");
-      return;
-    }
-
-    // Validate subreddit by trying to fetch
-    fetch(`https://www.reddit.com/r/${sub}.json`)
-      .then((res) => {
-        if (!res.ok) throw new Error("Subreddit not found");
-        return res.json();
-      })
-      .then(() => {
-        setSubreddits([...subreddits, sub]);
-        setNewSubreddit("");
-        setError("");
-        setShowModal(false);
-      })
-      .catch(() => {
-        setError("Subreddit not found.");
-      });
-  };
-
   const handleDeleteSubreddit = (sub) => {
     setSubreddits(subreddits.filter((s) => s !== sub));
   };
@@ -69,35 +43,11 @@ function App() {
       </div>
 
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-10">
-          <div className="bg-white p-6 rounded shadow-md w-80">
-            <h2 className="text-lg font-semibold mb-2">
-              Enter the name of subreddit
-            </h2>
-            <input
-              type="text"
-              value={newSubreddit}
-              onChange={(e) => setNewSubreddit(e.target.value)}
-              className="w-full border border-gray-300 rounded px-3 py-2 mb-3"
-              placeholder="e.g. javascript"
-            />
-            {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
-            <div className="flex justify-end space-x-2">
-              <button
-                onClick={() => setShowModal(false)}
-                className="px-4 py-2 text-gray-500 hover:text-black"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleAddSubreddit}
-                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-              >
-                Add Subreddit
-              </button>
-            </div>
-          </div>
-        </div>
+        <AddSubredditModal
+          existingSubs={subreddits}
+          onAdd={(sub) => setSubreddits([...subreddits, sub])}
+          onClose={() => setShowModal(false)}
+        />
       )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
