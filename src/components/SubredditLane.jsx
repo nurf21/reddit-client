@@ -61,8 +61,10 @@ export default function SubredditLane({ subreddit, onDelete }) {
       </div>
 
       {loading && <p className="text-sm text-gray-500">Loading...</p>}
-      {error && (
-        <p className="text-red-500 dark:text-red-400 text-sm">{error}</p>
+      {error && error.includes("mock") && (
+        <div className="text-xs text-yellow-500 italic mb-2">
+          Showing mock data
+        </div>
       )}
 
       <ul className="space-y-2 mt-2">
@@ -72,15 +74,15 @@ export default function SubredditLane({ subreddit, onDelete }) {
               href={post.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:underline flex flex-col gap-1"
+              className="cursor-pointer hover:underline flex flex-col gap-1"
             >
+              <span className="text-sm">{post.title}</span>
               <div className="flex items-center gap-2 text-sm">
                 <span className="font-bold text-purple-600">
                   ↑ {post.score}
                 </span>
                 <span className="text-gray-500">💬 {post.num_comments}</span>
               </div>
-              <span className="text-sm">{post.title}</span>
             </a>
           </li>
         ))}

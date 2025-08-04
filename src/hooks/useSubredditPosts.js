@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from "react";
+import { mockPosts } from "../data/mockData";
 
 export function useSubredditPosts(subreddit) {
   const [posts, setPosts] = useState([]);
@@ -38,8 +39,8 @@ export function useSubredditPosts(subreddit) {
         cacheRef.current.set(subreddit, postItems);
         setPosts(postItems);
       } catch (err) {
-        setError(err.message || "Failed to fetch posts.");
-        setPosts([]);
+        setPosts(mockPosts);
+        setError("Unable to fetch posts. Showing mock data.");
       } finally {
         setLoading(false);
       }
