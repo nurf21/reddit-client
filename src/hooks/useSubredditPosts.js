@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from "react";
-import { mockPosts } from "../data/mockData";
+import { mockPosts } from "../utils/mockData";
 
 export function useSubredditPosts(subreddit) {
   const [posts, setPosts] = useState([]);

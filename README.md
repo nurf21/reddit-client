@@ -1,12 +1,89 @@
-# React + Vite
+# 🧭 Reddit Client — Multi-Subreddit Lanes
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A responsive, browser-based Reddit client built with **React**, **Vite**, and **Tailwind CSS**, supporting multiple subreddit lanes with dynamic fetching, localStorage persistence, mock fallback, dark mode, and more.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+- 🔎 **Add any subreddit** via input modal
+- 🗂️ **Multiple lanes**, each showing a separate subreddit
+- 🔄 Refresh posts per lane
+- 🗑️ Delete individual lanes
+- 💾 **Persistent lanes** using `localStorage`
+- 🌗 **Dark mode** support
+- ⚠️ **Mock data fallback** for 403 errors
+- 🎹 **Keyboard accessible** modal (Esc / Enter)
+- 🎨 Modern design with Tailwind + transitions
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🚀 Live Demo
+
+📍 **[View it here](https://nurf21.github.io/reddit-client/)**
+
+---
+
+## 📦 Tech Stack
+
+- [React](https://react.dev/)
+- [Vite](https://vite.dev/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- Reddit JSON API: `https://api.reddit.com/r/{subreddit}.json`
+
+---
+
+## 🛠️ Installation
+
+```bash
+git clone https://github.com/nurf21/reddit-client.git
+cd reddit-client
+npm install
+npm run dev
+```
+
+---
+
+## 📁 Folder Structure
+
+```
+src/
+│
+├── components/
+│   ├── AddSubredditModal.jsx
+│   ├── SubredditLane.jsx
+│
+├── hooks/
+│   └── useSubredditPosts.js
+│
+├── utils/
+│   └── mockData.js
+│
+├── App.jsx
+├── index.css
+└── main.jsx
+```
+
+---
+
+## 🧪 TODOs / Ideas
+
+- ⬇️ Infinite scroll or pagination
+- 📱 Mobile gestures or swipe-to-delete
+- 🧠 AI-powered subreddit suggestions
+- 🎭 Authenticated Reddit API for comments & votes
+
+---
+
+## 🧑‍💻 Credits
+
+- Project template and inspiration from [roadmap.sh](https://roadmap.sh/projects/reddit-client/)
+- Reddit icons created by Md Tanvirul Haque from [Flaticon](https://www.flaticon.com/free-icons/reddit)
+
+---
+
+## 📝 License
+
+[MIT](LICENSE)
+
+---
